@@ -43,8 +43,13 @@ export class UserService {
         return this.userRepository.find();
     }
 
-    async resetData(): Promise<void> {
-        await this.userRepository.clear();
+    async getUserById(userId: number): Promise<User | undefined> {
+        return this.userRepository.findOne({ where: { id: userId } });
     }
     
+    async resetData(): Promise<void> {
+        //await this.userRepository.clear();
+        await this.userRepository.query('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE');
+    }
+
 }

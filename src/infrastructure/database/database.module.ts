@@ -3,8 +3,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigurationModule } from '../configuration/configuration.module';
 import { ConfigurationService } from '../configuration/configuration.service';
 import { DATABASE_NAME, DATABASE_PORT } from '../configuration/model/database-configuration';
-import { Task } from 'src/task/task.entity';
-import { User } from 'src/user/user.entity';
+import { Task } from '../../task/task.entity';
+import { User } from '../../user/user.entity';
 
 @Module({
     imports: [

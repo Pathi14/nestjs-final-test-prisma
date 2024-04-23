@@ -1,4 +1,4 @@
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
 @Entity()
@@ -10,7 +10,7 @@ export class Task {
   name: string;
 
   @Column()
-  userId: string;
+  userId: number;
 
   @Column()
   priority: number;

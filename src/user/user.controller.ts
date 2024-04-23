@@ -1,5 +1,3 @@
-// src/user/user.controller.ts
-
 import { Controller, Post, Body, BadRequestException, ConflictException, Get } from '@nestjs/common';
 import { UserService } from './user.service';
 
@@ -11,7 +9,6 @@ export class UserController {
   async createUser(@Body() body: { email: string }) {
     const { email } = body;
 
-    // Vérification de la validité de l'email
     if (!email || !this.isValidEmail(email)) {
       throw new BadRequestException('Invalid email address');
     }
@@ -32,7 +29,6 @@ export class UserController {
   }
   
   private isValidEmail(email: string): boolean {
-    // Vérification du format de l'email à l'aide d'une expression régulière simple
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
