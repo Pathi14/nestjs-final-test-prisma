@@ -1,7 +1,7 @@
-import { User } from '../user/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+//import { User } from '../user/user.entity';
+//import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
-@Entity()
+/*@Entity()
 export class Task {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,4 +18,4 @@ export class Task {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
-}
+}*/

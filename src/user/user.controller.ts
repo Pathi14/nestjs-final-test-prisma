@@ -1,5 +1,6 @@
-import { Controller, Post, Body, BadRequestException, ConflictException, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, BadRequestException, ConflictException } from '@nestjs/common';
 import { UserService } from './user.service';
+import { User } from './user';
 
 @Controller()
 export class UserController {
@@ -11,26 +12,26 @@ export class UserController {
 
     if (!email || !this.isValidEmail(email)) {
       throw new BadRequestException('Invalid email address');
-    }
+    } 
 
     try {
-      await this.userService.addUser(body.email);
+      await this.userService.addUser(email);
       return { message: 'User created successfully' };
     } catch (error) {
-      if (error instanceof BadRequestException || error instanceof ConflictException) {
-        throw error;
-      }
-      throw new BadRequestException('Invalid request');
+        if (error instanceof ConflictException) {
+            throw new ConflictException(error.message);
+        }
+        throw new BadRequestException('Invalid request');    
     }
   }
+
   @Get()
-  async getUsers() {
+  async getUsers(): Promise<User[]> {
     return this.userService.getAllUsers();
   }
-  
+
   private isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
-
 }

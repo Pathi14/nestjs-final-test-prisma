@@ -1,55 +1,45 @@
-import { ConflictException, Injectable, NotImplementedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from './user.entity';
+import { ConflictException, Injectable } from '@nestjs/common';
+import { PrismaService } from '../../prisma/prisma.service';
+import { User } from './user';
 
 @Injectable()
 export class UserService {
-    /*constructor() {}
-
-    addUser(email: string): Promise<void> {
-        throw new NotImplementedException();
-    }
-
-    getUser(email: string): Promise<unknown> {
-        throw new NotImplementedException();
-    }
-
-    resetData(): Promise<void> {
-        throw new NotImplementedException();
-    }*/
-    constructor(
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
-    ) {}
+    constructor(private prisma: PrismaService) {}
 
     async addUser(email: string): Promise<void> {
-        const existingUser = await this.userRepository.findOne({ where: { email } });
+        const existingUser = await this.prisma.user.findUnique({
+            where: { email },
+        });
         if (existingUser) {
-          throw new ConflictException(`User with email ${email} already exists`);
+            throw new ConflictException(`User with email ${email} already exists`);
         }
-    
-        const user = new User();
-        user.email = email;
-    
-        await this.userRepository.save(user);
+
+        await this.prisma.user.create({
+            data: { email },
+        });
     }
-    
-    async getUser(email: string): Promise<User | undefined> {
-        return this.userRepository.findOne({ where: { email } });
+
+    async getUser(email: string): Promise<User | null> {
+        return this.prisma.user.findUnique({
+            where: {
+                email,
+            },
+        });
     }
 
     async getAllUsers(): Promise<User[]> {
-        return this.userRepository.find();
+        return this.prisma.user.findMany();
     }
 
-    async getUserById(userId: number): Promise<User | undefined> {
-        return this.userRepository.findOne({ where: { id: userId } });
+    async getUserById(userId: number): Promise<User | null> {
+        return this.prisma.user.findUnique({
+            where: {
+                id: userId,
+            },
+        });
     }
-    
+
     async resetData(): Promise<void> {
-        //await this.userRepository.clear();
-        await this.userRepository.query('TRUNCATE TABLE "user" RESTART IDENTITY CASCADE');
+        await this.prisma.user.deleteMany();
     }
-
 }

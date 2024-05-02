@@ -1,14 +1,13 @@
 import { Injectable, NotImplementedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Task } from './task.entity';
-import { Repository } from 'typeorm';
-import { UserService } from '../user/user.service';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 @Injectable()
 export class TaskService {
-    /*constructor() {}
+    constructor() {}
 
-    addTask(name: string, userId: string, priority: number): Promise<void> {
+    /*addTask(name: string, userId: string, priority: number): Promise<void> {
         throw new NotImplementedException();
     }
 
@@ -23,36 +22,38 @@ export class TaskService {
     resetData(): Promise<void> {
         throw new NotImplementedException();
     }*/
-    constructor(
-        @InjectRepository(Task)
-        private taskRepository: Repository<Task>,
-        private userService: UserService,
-    ) {}
 
-    async addTask(name: string, userId: number, priority: number): Promise<void> {
-        const user = await this.userService.getUserById(userId);
-        if (!user) {
-            throw new Error(`User with id ${userId} not found`);
-        }
-
-        const task = new Task();
-        task.name = name;
-        task.userId = userId;
-        task.priority = priority;
-
-        await this.taskRepository.save(task);
+    /*async addTask(name: string, userId: string, priority: number): Promise<void> {
+      await prisma.task.create({
+        data: {
+          name,
+          priority,
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
     }
-
-    async getTaskByName(name: string): Promise<Task | undefined> {
-        return this.taskRepository.findOne({ where: { name } });
-    }
-
-    async getUserTasks(userId: number): Promise<Task[]> {
-        return this.taskRepository.find({ where: { userId: userId } });
-    }
-
-    async resetData(): Promise<void> {
-        //await this.taskRepository.clear();
-        await this.taskRepository.query('TRUNCATE TABLE "task" RESTART IDENTITY CASCADE');
-    }
+    
+      async getTaskByName(name: string): Promise<any> {
+        return prisma.task.findUnique({
+          where: {
+            name,
+          },
+        });
+      }
+    
+      async getUserTasks(userId: string): Promise<any[]> {
+        return prisma.task.findMany({
+          where: {
+            userId,
+          },
+        });
+      }
+    
+      async resetData(): Promise<void> {
+        // Vous pouvez implémenter la logique pour réinitialiser les données ici
+      }*/
 }
