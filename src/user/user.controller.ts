@@ -1,6 +1,6 @@
 import { Controller, Post, Body, Get, BadRequestException, ConflictException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { User } from './user';
+import { User } from '@prisma/client';
 
 @Controller()
 export class UserController {

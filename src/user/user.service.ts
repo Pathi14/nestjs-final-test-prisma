@@ -1,6 +1,7 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
-import { User } from './user';
+import { User, Prisma } from '@prisma/client';
+
 
 @Injectable()
 export class UserService {
@@ -40,6 +41,7 @@ export class UserService {
     }
 
     async resetData(): Promise<void> {
+        await this.prisma.task.deleteMany();
         await this.prisma.user.deleteMany();
-    }
+    }       
 }
