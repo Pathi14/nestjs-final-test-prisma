@@ -18,7 +18,7 @@ export class UserController {
       await this.userService.addUser(email);
       return { message: 'User created successfully' };
     } catch (error) {
-        if (error instanceof ConflictException) {
+        if (error instanceof ConflictException || this.userService.verifyExistence(email)) {
             throw new ConflictException(error.message);
         }
         throw new BadRequestException('Invalid request');    

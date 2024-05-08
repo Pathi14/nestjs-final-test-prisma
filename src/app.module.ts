@@ -1,4 +1,4 @@
-import { PrismaModule } from '../prisma/prisma.module';
+import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { AppRoutingModule } from './app.routing-module';
 import { ConfigurationModule } from './infrastructure/configuration/configuration.module';
 import { Module } from '@nestjs/common';

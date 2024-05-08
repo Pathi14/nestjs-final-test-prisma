@@ -23,7 +23,8 @@
     "start:mongodb": "export DBMS=mongodb; docker-compose --env-file ./.env -f ./docker/docker-compose-mongodb.yml up -d; npm run start:dev",
     "start:postgres": "export DBMS=postgres; docker-compose --env-file ./.env -f ./docker/docker-compose-postgres.yml up -d; npm run start:dev",
     "start:postgres:windows": "set DBMS=postgres && docker-compose --env-file ./.env -f ./docker/docker-compose-postgres.yml up -d && npm run start:dev",
-    "prisma": "prisma"
+    "prisma": "prisma",
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
