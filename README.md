@@ -1,7 +1,8 @@
 ## Setup
 ### 🏗️ Initialisation
 1. Installez ses dépendances en utilisant la commande `npm ci`
-    * La base de données utilisé dans ce projet est postgres
+    * La base de données utilisé dans ce projet est postgres et sur docker
+      demarrer votre docker desktop pour pouvoir l'utiliser
     * L'ORM utilisé dans ce projet es prisma
     * L'environnement de developpement etait windows
     
