@@ -29,11 +29,6 @@ export class TaskController {
     }
   }
 
-  @Get(':name')
-  async getTaskByName(@Param('name') name: string): Promise<Task | undefined> {
-    return this.taskService.getTaskByName(name);
-  }
-
   @Get('user/:userId')
   async getUserTasks(@Param('userId') userId: string): Promise<Task[]> {
     const parsedUserId = parseInt(userId, 10); // Convertir la chaîne en nombre
@@ -41,6 +36,11 @@ export class TaskController {
       throw new BadRequestException('Invalid userId');
     }
     return this.taskService.getUserTasks(parsedUserId);
+  }
+
+  @Get(':name')
+  async getTaskByName(@Param('name') name: string): Promise<Task | undefined> {
+    return this.taskService.getTaskByName(name);
   }
 
 }
