@@ -35,12 +35,14 @@ export class TaskController {
     if (isNaN(parsedUserId) || parsedUserId < 0) {
       throw new BadRequestException('Invalid userId');
     }
-    return this.taskService.getUserTasks(parsedUserId);
-  }
 
-  @Get(':name')
-  async getTaskByName(@Param('name') name: string): Promise<Task | undefined> {
-    return this.taskService.getTaskByName(name);
+    const existingUser = await this.taskService.verifyExistenceUser(parsedUserId);
+    if (!existingUser) {
+      throw new BadRequestException(`User with id ${userId} not found`);
+    }
+    
+    return this.taskService.getUserTasks(parsedUserId);
+
   }
 
 }

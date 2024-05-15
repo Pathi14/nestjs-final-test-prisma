@@ -7,10 +7,8 @@ export class TaskService {
     constructor(private prisma: PrismaService) {}
 
     async addTask(name: string, userId: number, priority: number): Promise<void> {
-      const user = await this.prisma.user.findUnique({
-          where: { id: userId },
-      });
-      if (!user) {
+      const existingUser = this.verifyExistenceUser(userId);
+      if (!existingUser) {
           throw new Error(`User with id ${userId} not found`);
       }
 
@@ -32,12 +30,23 @@ export class TaskService {
     }
 
     async getUserTasks(userId: number): Promise<Task[]> {
-      return this.prisma.task.findMany({
-          where: { userId },
-      });
+        const existingUser = this.verifyExistenceUser(userId);
+        if (!existingUser) {
+            throw new Error(`User with id ${userId} not found`);
+        }
+        return this.prisma.task.findMany({
+            where: { userId },
+        });
     }
 
     async resetData(): Promise<void> {
       await this.prisma.task.deleteMany();
     }
+
+    async verifyExistenceUser(userId: number): Promise<boolean> {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+        });
+        return !!user;
+    } 
 }
