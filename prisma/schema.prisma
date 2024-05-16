@@ -11,12 +11,13 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  //url      = "postgresql://postgres:postgres@localhost:${env('DATABASE_PORT')}/postgres/${env('DATABASE_NAME')}"
 }
 
 model Task {
   id       Int    @id @default(autoincrement())
   name     String
-  user     User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user     User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   Int?
   priority Int
 }
