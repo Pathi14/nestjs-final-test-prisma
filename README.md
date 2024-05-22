@@ -53,6 +53,8 @@ Ce projet est une API de TodoList, l'objectif est de faire passer tous les tests
             ```bash
             npm run test:e2e:postgres
             npm run test:e2e:postgres:windows
+            npm run test:e2e:postgres:windows:task -> script specifique de la classe de test task sur windows
+            npm run test:e2e:postgres:windows:user -> script specifique de la classe de test task sur windows
             ```
 
 📌 Utilisation
